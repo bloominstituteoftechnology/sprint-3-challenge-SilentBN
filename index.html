@@ -216,40 +216,30 @@
         // 👉 HINT: if you are not feeling confident with map and filter, solve the problem with for loops,
         //      and with the piece of mind of all tests passing, refactor to use map/filter
 
-        constructor(...args) {
-          this.ants = args.map((name) => ({ name, health: 100 }));
-        }
+        constructor(...names) {
+        this.ants = names.map(name => ({name, health: 100}));
+    }
 
-        work() {
-          this.ants.forEach(
-            (ant) => (ant.health = Math.max(0, ant.health - 20))
-          );
+    work() {
+    if (this.ants.length === 0) {
+        return "No ants here. Did you work them to death?";
+    }
+    const numAnts = this.ants.length;
+    this.ants = this.ants.map(ant => ({...ant, health: ant.health - 20})).filter(ant => ant.health > 0);
+    return `${numAnts} ants starting work!`;
+}
 
-          this.ants = this.ants.filter((ant) => ant.health > 0);
-
-          if (this.ants.length === 0) {
-            return "No ants here. Did you work them to death?";
-          }
-
-          return `${this.ants.length} ants starting work!`;
-        }
-
-        feed(antName) {
-          if (this.ants.length === 0) {
-            return "No ants here. Did you work them to death?";
-          }
-
-          const foundAnt = this.ants.find((ant) => ant.name === antName);
-
-          if (foundAnt) {
-            this.ants = this.ants.map((ant) =>
-              ant.name === antName ? { ...ant, health: ant.health + 15 } : ant
-            );
-            return "Yum!";
-          } else {
-            return `${antName} not found!`;
-          }
-        }
+    feed(name) {
+        let found = false;
+        this.ants = this.ants.map(ant => {
+            if (ant.name === name) {
+                found = true;
+                return {...ant, health: ant.health + 15};
+            }
+            return ant;
+        });
+        return found ? "Yum!" : `${name} not found!`;
+    }
       }
 
       // 🧪 TESTS, do not make any changes below this line ===================
@@ -597,6 +587,7 @@
               const farm = new AntFarm("Jess", "Blake", "Jess");
               farm.ants[0].health++;
               actual = [];
+              farm.work();
               farm.work();
               farm.work();
               farm.work();
