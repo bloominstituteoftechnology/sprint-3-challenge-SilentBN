@@ -217,29 +217,31 @@
         //      and with the piece of mind of all tests passing, refactor to use map/filter
 
         constructor(...names) {
-        this.ants = names.map(name => ({name, health: 100}));
-    }
+          this.ants = names.map((name) => ({ name, health: 100 }));
+        }
 
-    work() {
-    if (this.ants.length === 0) {
-        return "No ants here. Did you work them to death?";
-    }
-    const numAnts = this.ants.length;
-    this.ants = this.ants.map(ant => ({...ant, health: ant.health - 20})).filter(ant => ant.health > 0);
-    return `${numAnts} ants starting work!`;
-}
+        work() {
+          if (this.ants.length === 0) {
+            return "No ants here. Did you work them to death?";
+          }
+          const numAnts = this.ants.length;
+          this.ants = this.ants
+            .map((ant) => ({ ...ant, health: ant.health - 20 }))
+            .filter((ant) => ant.health > 0);
+          return `${numAnts} ants starting work!`;
+        }
 
-    feed(name) {
-        let found = false;
-        this.ants = this.ants.map(ant => {
+        feed(name) {
+          let found = false;
+          this.ants = this.ants.map((ant) => {
             if (ant.name === name) {
-                found = true;
-                return {...ant, health: ant.health + 15};
+              found = true;
+              return { ...ant, health: ant.health + 15 };
             }
             return ant;
-        });
-        return found ? "Yum!" : `${name} not found!`;
-    }
+          });
+          return found ? "Yum!" : `${name} not found!`;
+        }
       }
 
       // 🧪 TESTS, do not make any changes below this line ===================
